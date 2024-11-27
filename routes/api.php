@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MeasureLogsController;
 use App\Http\Middleware\EnsureAPIJsonHeaders;
 
 Route::get('/greeting', function () {
@@ -34,4 +35,5 @@ Route::middleware([EnsureAPIJsonHeaders::class])->group(function(){
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/AddMeasureLogs', [MeasureLogsController::class, 'AddMeasureLogs']);
 });

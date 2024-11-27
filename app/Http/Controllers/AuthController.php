@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Access;
+use App\Models\Accesses;
 
 class AuthController extends Controller
 {
@@ -15,7 +15,7 @@ class AuthController extends Controller
             'name' => ['required','string','max:32','unique:accesses'],
             'secret' => ['required','string','min:8']
         ])){
-            $access = Access::create([
+            $access = Accesses::create([
                 'name' => $request['name'],
                 'secret' => Hash::make($request['secret'])
             ]);    
@@ -27,7 +27,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
-        $access = Access::where('name',  $request->name)->first();
+        $access = Accesses::where('name',  $request->name)->first();
         if (!$access || !Hash::check($request->secret, $access->secret)) {
             return response()->json([
                 'status' => 'Name or secret incorrect'
@@ -45,8 +45,8 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
-        $ofUser = $request->user('sanctum');
-        if($ofUser != null) $ofUser->currentAccessToken()->delete();
+        $ofAccess = $request->user('sanctum');
+        if($ofAccess != null) $ofAccess->currentAccessToken()->delete();
         return response()->json([
             'status' => 'logged out successfully'
         ], 200);

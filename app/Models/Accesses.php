@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Access extends Authenticatable
+use App\Models\Entities;
+
+class Accesses extends Authenticatable
 {
     use HasApiTokens;
 
@@ -18,10 +22,8 @@ class Access extends Authenticatable
         'secret',
     ];
 
-    protected function casts(): array
+    public function Entities(): BelongsTo
     {
-        return [
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(Entities::class, 'of_entity', 'id');
     }
 }

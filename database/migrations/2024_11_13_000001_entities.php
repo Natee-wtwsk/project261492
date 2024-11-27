@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('entity_types', function (Blueprint $table) {
             $table->id()->primary();
-            $table->string('type', 32);
-            $table->timestamp('created_at')->useCurrent();
+            $table->string('type', 32)->unique();
         });
 
         Schema::create('entities', function (Blueprint $table) {
