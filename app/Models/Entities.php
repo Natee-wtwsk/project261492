@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Models\ControllerHaveAnchors;
+use App\Models\EntityTypes;
 
 class Entities extends Model
 {
@@ -27,6 +31,11 @@ class Entities extends Model
     public function ControllerHaveAnchors(): HasMany
     {
         return $this->hasMany(ControllerHaveAnchors::class, 'controller');
+    }
+
+    public function EntityTypes(): BelongsTo
+    {
+        return $this->belongsTo(EntityTypes::class, 'type', 'id');
     }
 
     public function MeasureLogs(): HasMany
