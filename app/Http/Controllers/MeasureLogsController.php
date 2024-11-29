@@ -23,17 +23,17 @@ class MeasureLogsController extends Controller
         }
 
         if ($ofEntity->EntityTypes['type'] == 'controller') {
-            $anchorArray = [];
+            $ControllerHaveAnchors = [];
             foreach ($ofEntity->ControllerHaveAnchors as $CHA) {
-                $anchorArray[] = $CHA['have_anchor'];
+                $ControllerHaveAnchors[] = $CHA['have_anchor'];
             }
             
-            foreach ($request->data as $d) {
-                if (in_array($d['anchor'], $anchorArray)) {
-                    if ($d['timestamp'] == '') {
-                        $d['timestamp'] = now();
+            foreach ($request->data as $data) {
+                if (in_array($data['anchor'], $ControllerHaveAnchors)) {
+                    if ($data['timestamp'] == '') {
+                        $data['timestamp'] = now();
                     }
-                    MeasureLogs::insert($d);
+                    MeasureLogs::insert($data);
                 }
             }
 
