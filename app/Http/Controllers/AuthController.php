@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -45,8 +44,8 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
-        $ofAccess = $request->user('sanctum');
-        if($ofAccess != null) $ofAccess->currentAccessToken()->delete();
+        $access = $request->user('sanctum');
+        if($access != null) $access->currentAccessToken()->delete();
         return response()->json([
             'status' => 'logged out successfully'
         ], 200);

@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-use App\Models\ControllerHaveAnchors;
-use App\Models\EntityTypes;
-
 class Entities extends Model
 {
     protected $fillable = [
@@ -43,8 +40,8 @@ class Entities extends Model
         return $this->hasMany(MeasureLogs::class, 'anchor', 'tag');
     }
 
-    public function uwbIps(): HasOne
+    public function uwbIps(): BelongsTo
     {
-        return $this->hasOne(uwbIps::class, 'uwb');
+        return $this->belongsTo(uwbIps::class, 'id', 'uwb');
     }
 }

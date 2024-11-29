@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\MeasureLogs;
+
 class MeasureLogsController extends Controller
 {
     public function AddMeasureLogs(Request $request) {
@@ -20,17 +22,47 @@ class MeasureLogsController extends Controller
             ], 404);
         }
 
-        $anchorArray = [];
-        $ControllerHaveAnchors = $ofEntity->ControllerHaveAnchors;
-        foreach($ControllerHaveAnchors as $CHA)
-        {
-            $anchorArray[] = $CHA['have_anchor'];
+        if ($ofEntity->EntityTypes['type'] == 'controller') {
+            $anchorArray = [];
+            foreach ($ofEntity->ControllerHaveAnchors as $CHA) {
+                $anchorArray[] = $CHA['have_anchor'];
+            }
+            
+            foreach ($request->data as $d) {
+                if (in_array($d['anchor'], $anchorArray)) {
+                    if ($d['timestamp'] == '') {
+                        $d['timestamp'] = now();
+                    }
+                    MeasureLogs::insert($d);
+                }
+            }
+
+            return response()->json([
+                'Status' => 'ok',
+            ], 200);
         }
+        elseif ($ofEntity->EntityTypes['type'] == 'anchor') {
+            $data = $request->data;
+            if ($data['timestamp'] == '') {
+                $data['timestamp'] = now();
+            }
+            $data['anchor'] = $ofEntity['id'];
+            MeasureLogs::insert($data);
+            return response()->json([
+                'Status' => 'ok',
+            ], 200);
+        }
+
         return response()->json([
-            'id' => $ofEntity->id,
-            'type' => $ofEntity->EntityTypes->type,
-            'description' => $ofEntity->description,
-            'ControllerHaveAnchors' => $anchorArray
+            'status' => 'Unauthorized.'
+        ], 401);
+    }
+
+    public function GetMeasureLogs() {
+        $log = MeasureLogs::get();
+        return response()->json([
+            'Status' => 'ok',
+            'data' => $log,
         ], 200);
     }
 }
