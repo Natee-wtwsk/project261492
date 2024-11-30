@@ -46,11 +46,14 @@ class MeasureLogsController extends Controller
         }
         elseif ($ofEntity->EntityTypes['type'] == 'anchor') {
             $data = $request->data;
-            if ($data['timestamp'] == '') {
-                $data['timestamp'] = now();
+            foreach ($request->data as $data) {
+                if ($data['timestamp'] == '') {
+                    $data['timestamp'] = now();
+                }
+                $data['anchor'] = $ofEntity['id'];
+                MeasureLogs::insert($data);
             }
-            $data['anchor'] = $ofEntity['id'];
-            MeasureLogs::insert($data);
+            
             return response()->json([
                 'Status' => 'ok',
             ], 200);
@@ -96,6 +99,8 @@ class MeasureLogsController extends Controller
                 $row_num = 1;
                 $log = MeasureLogs::select(DB::raw('* ,row_number() OVER(PARTITION BY anchor ORDER BY timestamp DESC) AS row_num'))
                                     ->where('tag', $tag['id'])
+                                    ->orderBy('row_num', 'ASC')
+                                    ->limit(30)
                                     ->get();
                 $LastLog = $log->where('row_num', $row_num)->makeHidden(['id', 'tag', 'row_num'])->values();
                 return response()->json([
