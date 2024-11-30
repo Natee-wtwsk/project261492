@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\MeasureLogs;
+use App\Models\Entities;
+
 
 class MeasureLogsController extends Controller
 {
@@ -64,5 +67,48 @@ class MeasureLogsController extends Controller
             'Status' => 'ok',
             'data' => $log,
         ], 200);
+    }
+
+    public function GetTagMeasureLogs(int $id, Request $request) {
+        $ofUser = $request->user('sanctum');
+        if (!$ofUser) {
+            return response()->json([
+                'status' => 'Token Does not exist.'
+            ], 404);
+        }
+        $ofEntity = $ofUser->Entities;
+        if (!$ofEntity) {
+            return response()->json([
+                'status' => 'Entity Does not exist.'
+            ], 404);
+        }
+
+        $tag = Entities::find($id);
+        if ($tag) {
+            $EntityAccessZones = [];
+            foreach ($ofEntity->AccessZones as $EAZ) {
+                $EntityAccessZones[] = $EAZ['access_zone'];
+            }
+            if (
+                $tag->EntityTypes['type'] == 'tag' &&
+                in_array($tag->AccessZones[0]['access_zone'], $EntityAccessZones)
+            ) {
+                $row_num = 1;
+                $log = MeasureLogs::select(DB::raw('* ,row_number() OVER(PARTITION BY anchor ORDER BY timestamp DESC) AS row_num'))
+                                    ->where('tag', $tag['id'])
+                                    ->get();
+                $LastLog = $log->where('row_num', $row_num)->makeHidden(['id', 'tag', 'row_num'])->values();
+                return response()->json([
+                    'Status' => 'ok',
+                    'tag_id' => $tag['id'],
+                    'row_num' => $row_num,
+                    'data' => $LastLog,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'status' => 'Tag Does not exist.'
+        ], 404);
     }
 }

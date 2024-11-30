@@ -40,6 +40,10 @@ class EntitiesSeeder extends Seeder
                 'type' => 2,
                 'description' => 'User',
             ],
+            [
+                'type' => 2,
+                'description' => 'User2',
+            ],
         ];
         Entities::insert($data);
     }

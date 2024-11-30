@@ -12,7 +12,7 @@ Route::get('/greeting', function () {
     return 'Hello World';
 });
 
-Route::get('/zone/{id}', function (int $id) {
+Route::get('/zone/{$id}', function (int $id) {
     $zones = DB::table('zones')->get()->where('id', $id);
     return $zones;
 });
@@ -37,4 +37,5 @@ Route::middleware([EnsureAPIJsonHeaders::class])->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/AddMeasureLogs', [MeasureLogsController::class, 'AddMeasureLogs']);
     Route::get('/GetMeasureLogs', [MeasureLogsController::class, 'GetMeasureLogs']);
+    Route::get('/GetTagMeasureLogs/{id}', [MeasureLogsController::class, 'GetTagMeasureLogs']);
 });

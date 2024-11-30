@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ZonesSeeder::class,
             EntitiesSeeder::class,
             ControllerHaveAnchorsSeeder::class,
+            AccessZonesSeeder::class,
         ]);
     }
 }
