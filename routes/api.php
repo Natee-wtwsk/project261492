@@ -9,7 +9,10 @@ use App\Http\Controllers\MeasureLogsController;
 use App\Http\Middleware\EnsureAPIJsonHeaders;
 
 Route::get('/greeting', function () {
-    return 'Hello World';
+    return response()->json([
+        'Status' => 'ok',
+        'Message' => 'Hello World',
+    ], 200);
 });
 
 Route::get('/zone/{$id}', function (int $id) {
