@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('uwb_ips', function (Blueprint $table) {
             $table->foreignId('uwb')->primary()->references('id')->on('entities');
-            $table->string('ip', 24)->unique();
+            $table->string('ip', 8)->unique();
         });
     }
 

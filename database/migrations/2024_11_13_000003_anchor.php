@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anchor_location', function (Blueprint $table) {
+        Schema::create('anchor_locations', function (Blueprint $table) {
             $table->foreignId('anchor')->primary()->references('id')->on('entities');
-            $table->string('location', 64);
+            $table->float('location_X', precision: 24);
+            $table->float('location_Y', precision: 24);
+            $table->float('location_Z', precision: 24);
         });
 
         Schema::create('controller_have_anchors', function (Blueprint $table) {
@@ -29,6 +31,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('controller_have_anchors');
-        Schema::dropIfExists('anchor_location');
+        Schema::dropIfExists('anchor_locations');
     }
 };

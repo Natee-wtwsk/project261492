@@ -40,8 +40,8 @@ class Entities extends Model
         return $this->hasMany(MeasureLogs::class, 'anchor', 'tag');
     }
 
-    public function uwbIps(): BelongsTo
+    public function uwbIps(): HasOne
     {
-        return $this->belongsTo(uwbIps::class, 'id', 'uwb');
+        return $this->hasOne(uwbIps::class, 'id', 'uwb');
     }
 }
