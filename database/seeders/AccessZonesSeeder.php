@@ -15,7 +15,7 @@ class AccessZonesSeeder extends Seeder
             'entity' => 0,
             'access_zone' => 2,
         ];
-        foreach(range(1, 7) as $i)
+        foreach(range(1, 10) as $i)
         {
             $data['entity'] = $i;
             AccessZones::insert($data);

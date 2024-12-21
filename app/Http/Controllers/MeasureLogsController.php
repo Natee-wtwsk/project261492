@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\MeasureLogs;
 use App\Models\Entities;
+use App\Models\MeasureLogs;
+use App\Models\UwbIps;
 
 
 class MeasureLogsController extends Controller
-{
+{   
     public function AddMeasureLogs(Request $request) {
         $ofUser = $request->user('sanctum');
         if (!$ofUser) {
@@ -32,6 +33,11 @@ class MeasureLogsController extends Controller
             }
             
             foreach ($request->data as $data) {
+                $ofAnchor = UwbIps::where('ip', $data['anchor'])->first();
+                $ofTag = UwbIps::where('ip', $data['tag'])->first();
+                if(!$ofAnchor || !$ofTag) continue;
+                $data['anchor'] = $ofAnchor['uwb'];
+                $data['tag'] = $ofTag['uwb'];
                 if (in_array($data['anchor'], $ControllerHaveAnchors)) {
                     if ($data['timestamp'] == '') {
                         $data['timestamp'] = now();
@@ -47,6 +53,9 @@ class MeasureLogsController extends Controller
         elseif ($ofEntity->EntityTypes['type'] == 'anchor') {
             $data = $request->data;
             foreach ($request->data as $data) {
+                $ofTag = UwbIps::where('ip', $data['tag'])->first();
+                if(!$ofTag) continue;
+                $data['tag'] = $ofTag['uwb'];
                 if ($data['timestamp'] == '') {
                     $data['timestamp'] = now();
                 }

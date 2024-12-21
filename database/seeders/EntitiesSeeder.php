@@ -34,11 +34,19 @@ class EntitiesSeeder extends Seeder
             ],
             [
                 'type' => 5,
-                'description' => 'Tag',
+                'description' => 'Tag1',
+            ],
+            [
+                'type' => 5,
+                'description' => 'Tag2',
+            ],
+            [
+                'type' => 5,
+                'description' => 'Tag3',
             ],
             [
                 'type' => 2,
-                'description' => 'User',
+                'description' => 'User1',
             ],
             [
                 'type' => 2,

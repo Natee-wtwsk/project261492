@@ -31,6 +31,14 @@ class UWBIpsSeeder extends Seeder
             [
                 'uwb' => 6,
                 'ip' => '10:01'
+            ],
+            [
+                'uwb' => 7,
+                'ip' => '10:02'
+            ],
+            [
+                'uwb' => 8,
+                'ip' => '10:03'
             ]
         ];
         UwbIps::insert($data);
