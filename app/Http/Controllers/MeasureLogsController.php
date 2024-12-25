@@ -9,10 +9,13 @@ use App\Models\Entities;
 use App\Models\MeasureLogs;
 use App\Models\UwbIps;
 
+use Illuminate\Support\Facades\Log;
+
 
 class MeasureLogsController extends Controller
 {   
     public function AddMeasureLogs(Request $request) {
+        Log::info($request);
         $ofUser = $request->user('sanctum');
         if (!$ofUser) {
             return response()->json([

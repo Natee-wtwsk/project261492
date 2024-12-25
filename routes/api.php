@@ -8,30 +8,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MeasureLogsController;
 use App\Http\Middleware\EnsureAPIJsonHeaders;
 
+Route::get('/connect', function () {
+    return response()->json([
+        'Status' => 'ok',
+        'Message' => 'Response',
+    ], 200);
+});
+
 Route::get('/greeting', function () {
     return response()->json([
         'Status' => 'ok',
         'Message' => 'Hello World',
     ], 200);
-});
-
-Route::get('/zone/{$id}', function (int $id) {
-    $zones = DB::table('zones')->get()->where('id', $id);
-    return $zones;
-});
-
-Route::get('/zone', function () {
-    $zones = DB::table('zones')->get();
-    return $zones;
-});
-
-Route::get('/measure_list', function () {
-    $zones = DB::table('measure_logs')->get();
-    return $zones;
-});
-
-Route::post('/tokens/test', function (Request $request) {
-    return $request->input('payload');
 });
 
 Route::middleware([EnsureAPIJsonHeaders::class])->group(function(){
