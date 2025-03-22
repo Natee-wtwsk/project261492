@@ -64,3 +64,45 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Using Program
+This program require database. If you do not have one, Install it with this guide.
+https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/
+
+Follow those step to clone git repository on to your computer
+1. Clone this repository using git clone command and change directory to project folder
+```
+git clone https://github.com/Natee-wtwsk/project261492/
+cd project261492
+```
+
+2. Install composer with
+```
+composer install
+```
+
+3. Copy content in .env.example to a new file name .env
+```
+cp .env.example .env
+```
+
+4. Generate application key with
+```
+php artisan key:generate
+```
+
+5. Config Database in .env file
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE='Database project name'
+DB_USERNAME='MySQL username'
+DB_PASSWORD='MySQL password'
+```
+
+Use php artisan serve command to start this program
+```
+php artisan serve --host='computer ip address' --port=`application port`
+```
